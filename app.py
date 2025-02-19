@@ -3,9 +3,15 @@ from urllib.parse import quote  # Doğru modül
 from flask import Flask, render_template, request, Response
 import yt_dlp
 import requests
-
+import instaloader
+import os
 app = Flask(__name__)
 
+# Instaloader nesnesi oluştur
+L = instaloader.Instaloader()
+
+# Giriş yapmayı dene (session dosyasını kullan)
+SESSION_FILE = "session-127373772vbx"
 
 @app.route("/", methods=["GET"])
 def home():
@@ -45,29 +51,33 @@ def youtube():
 
 
 
+if os.path.exists(SESSION_FILE):
+    try:
+        L.load_session_from_file("YOUR_USERNAME")
+        print("✅ Instagram oturumu başarıyla yüklendi!")
+    except Exception as e:
+        print(f"❌ Oturum yükleme hatası: {e}")
+else:
+    print("⚠️ Oturum dosyası bulunamadı. Önce terminalde giriş yapmalısın!")
+
 @app.route("/instagram", methods=["GET", "POST"])
 def instagram():
     if request.method == "POST":
         url = request.form.get("url")
 
         try:
-            ydl_opts = {
-                "format": "best[ext=mp4]/best",
-                "noplaylist": True,
-                "nocache": True,
-                "cachedir": False,
-                "quiet": True  # Konsol çıktısını kapat
-            }
+            # URL'den shortcode'u al (örn: https://www.instagram.com/reel/XYZ123/ -> XYZ123)
+            shortcode = url.split("/")[-2]
 
-            with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                info_dict = ydl.extract_info(url, download=False)
-                stream_url = info_dict.get("url", None)
-                title = info_dict.get("title", "Instagram Video")
+            # Instaloader ile gönderi bilgilerini al
+            post = instaloader.Post.from_shortcode(L.context, shortcode)
 
-                if stream_url:
-                    return render_template("stream.html", stream_url=stream_url, platform="Instagram", title=title)
-                else:
-                    return render_template("instagram.html", error="Video URL alınamadı.")
+            # Video URL'sini al
+            if post.is_video:
+                video_url = post.video_url
+                return render_template("stream.html", stream_url=video_url, platform="Instagram", title="Instagram Video")
+            else:
+                return render_template("instagram.html", error="Bu gönderi bir video içermiyor.")
 
         except Exception as e:
             return render_template("instagram.html", error=f"Hata: {e}")
