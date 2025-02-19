@@ -3,10 +3,8 @@ from urllib.parse import quote  # Doğru modül
 from flask import Flask, render_template, request, Response
 import yt_dlp
 import requests
-import instaloader
 
 app = Flask(__name__)
-INSTAGRAM_COOKIES = "38789470070%3A8Wo5dp7Vta07Rh%3A29%3AAYcBZOzmNNbVrLnf7ciO0GztW9wLXj2mFD0pE_bnjQ"
 
 
 @app.route("/", methods=["GET"])
