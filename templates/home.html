@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video İndirici</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #e0eafc, #cfdef3);
+            transition: background 0.3s ease, color 0.3s ease;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        p {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .youtube-btn {
+            background-color: #260606;
+            color: white;
+        }
+
+        .youtube-btn:hover {
+            background-color: #CC0000;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+        }
+
+        .instagram-btn {
+            background-color: #E1306C;
+            color: white;
+        }
+
+        .instagram-btn:hover {
+            background-color: #c1285c;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(225, 48, 108, 0.3);
+        }
+
+        .toggle-theme {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .toggle-theme:hover {
+            background: #1a252f;
+            transform: scale(1.05);
+        }
+
+        /* Karanlık mod */
+        body.dark-mode {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .dark-mode .container {
+            background: #34495e;
+            color: white;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .dark-mode .toggle-theme {
+            background: white;
+            color: #2c3e50;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        a {
+            text-decoration: none; /* Alt çizgiyi kaldır */
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Video İndirme</h1>
+        <p>Hangi platformdan video indirmek istiyorsunuz?</p>
+        <a href="{{ url_for('youtube') }}">
+            <button class="youtube-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg" alt="YouTube">
+                YouTube Video İndir
+            </button>
+        </a>
+        <a href="{{ url_for('instagram') }}">
+            <button class="instagram-btn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+                Instagram Video İndir
+            </button>
+        </a>
+    </div>
+
+
+
+</body>
+</html>
