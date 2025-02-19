@@ -3,7 +3,6 @@ from flask import Flask, render_template, request, Response
 import yt_dlp
 import requests
 
-
 app = Flask(__name__)
 
 
@@ -40,33 +39,6 @@ def youtube():
 
     return render_template("youtube.html")
 
-@app.route("/instagram", methods=["GET", "POST"])
-def instagram():
-    if request.method == "POST":
-        post_url = request.form.get("url")
-        try:
-            # Instaloader ile gönderiyi çek
-            post = instaloader.Post.from_shortcode(L.context, post_url.split("/")[-2])
-
-            # Videoyu indir
-            for node in post.get_sidecar_nodes():
-                if node.is_video:
-                    video_url = node.video_url
-                    filename = f"{post.owner_profile.username}_{post.date.strftime('%Y%m%d_%H%M%S')}.mp4"
-                    return render_template("stream.html", stream_url=video_url, platform="Instagram", title=filename)
-            if post.is_video:
-                video_url = post.video_url
-                filename = f"{post.owner_profile.username}_{post.date.strftime('%Y%m%d_%H%M%S')}.mp4"
-                return render_template("stream.html", stream_url=video_url, platform="Instagram", title=filename)
-
-            else:
-                 return render_template("instagram.html", error="Video Bulunamadı. Lütfen geçerli bir gönderi URL'si girin.")
-        except Exception as e:
-            print(f"Error: {e}")
-            error_message = f"Error: {e}"
-            return render_template("instagram.html", error=error_message)
-
-    return render_template("instagram.html")
 
 @app.route("/download")
 def download():
